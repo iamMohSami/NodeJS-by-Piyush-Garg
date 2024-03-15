@@ -1,0 +1,33 @@
+JS = To make webpages interactive
+
+Where Does JS can be executed ? 
+In Console of Browser..! 
+i.e. we need to always create html files in order to run JS 
+
+Every Browser has a "ENGINE" preinstalled in it which runs this JS
+Chrome = V8 Engine (The Best and most popular)
+FireFox = SpiderMonkey
+Safari = Apple Engine
+
+Scientist Ryan Dahl , 
+Chrome's V8 Engine embedded with C++ --> NODEJS
+
+Benefits ? 
+Can run JS outside of Browser
+Can do File Handling and create webservers
+
+Thus, NodeJS is not a Programming Lang or Framework but a "RUN TIME ENVIRONMENT FOR JS"
+
+can use NodeJS in Command Prompt too 
+
+install nodeJS (Odd-Even Approach for Versioning)
+EVEN = 18.12.1 LTS(Long Term Support)  => ADVISABLE 
+ODD = 19.3.0 Beta / Testing version 
+
+In command prompt : 
+node --version
+
+type = node OPENS NODEJS INTERACTIVE TERMINAL IN COMMAND PROMPT WHERE YOU CAN RUN JS
+
+npm -v 
+(Node Package Manager)
