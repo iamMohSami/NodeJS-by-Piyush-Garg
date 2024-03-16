@@ -1,0 +1,27 @@
+CLIENT => User
+SERVER => NodeJS
+client makes a request to SERVER
+
+
+1. EVENT QUEUE
+All th requests made by the user are queued in Event Queue and executed in FIFO way
+
+2. EVENT LOOP
+the process/loop which handles the event Queue, it always has an eye/control over event queue and looks for any upcoming requests from user, puts it in the queue and also executes it in fifo
+
+3.Blocking and Non-Blocking Operations
+The requests can be of 2 types : 
+Blocking Operations = SYNCHRONOUS
+Non-Blocking Operations = ASYNCHRONOUS 
+
+The Event Loop takes out the Request, checks which kinda request is it , 
+If it is a Non-Blocking Operations(ASYNCHRONOUS) , THEN IT EXECUTES IT IMMEDIATELY AND SENDS BACK THE REPONSE
+
+4. THREAD POOL (pool of threads i.e. workers)
+BUT
+
+If it is a Blocking Operations(SYNCHRONOUS) , IT TAKES IT TO "THREAD POOL" , assigns a worker/thread , makes it work and then after completion , returns the result 
+
+5. Disadavantage 
+we have very little available threads(deafault=4) , 
+Suppose we got 10 Blocking request from User , first 4 are working , others need to WAIT for their completion , SCALABILITY ISSUES..!!
