@@ -1,0 +1,23 @@
+Types of HTTP METHODS : 
+1. GET
+2. PUT
+3. PUT
+4. PATCH
+5. DELETE
+
+
+1. GET => 
+When you want to get some data from the server
+wheneevr ypou serach anything on browser, by default , it is basically a GET request made by the browser on its server.
+
+
+2. POST =>
+When you want to add new data(mutate data) on the server 
+eg : when we fill any forms, or fill details , it can be added/stored on server using the POST mwthod 
+eg: when we fill signup form and click button Create Account , a POST method is sent to the server with formdata which is read and stored by the server 
+
+3. PUT => to put any IMAGE/FILE/PDF on server
+
+4. PATCH => edit/modify any existing data
+
+5. DELETE => to delete any data
