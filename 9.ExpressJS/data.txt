@@ -1,0 +1,50 @@
+In previous HTTP Methods we saw that, for every path , like /about , /contact etcc... we can have 5 Differnt HTTP METHODS and each one can be rendered different outputs on webpages using IF-ELSEIF Conditionals 
+This is very lenghty and the production code will not be easilt maintainable as a webserver can have hundreds of paths..
+
+Thus , to solve this problem we use "EXPRESSJS" 
+
+PROBLEMS WE FACE WITHOUT EXPRESS :
+
+our code : 
+const http = require("http") ; 
+const fs = require("fs") ; 
+const url = require("url") ; 
+
+function myHandler(req,res) {
+    if(req.url === "/favicon.ico") return res.end() ; 
+    console.log("Request Recieved on Server") ; 
+    const myUrl = url.parse(req.url) ; 
+    const log = `This Server was recieved on ${new Date()} and METHOD = ${req.method}\n` ; 
+
+    fs.appendFile("log.txt" , log , (err,data) => {
+        if (err) {
+            console.error("Error occurred while logging request:", err);
+        } else {
+            switch(myUrl.pathname){ 
+                case '/' : 
+                if(req.method==="GET") res.end("HomePage") ; break ; 
+                
+                case '/signup' :
+                   if(req.method==="GET") res.end("This is a SignUp form") ; 
+                   else if(req.method==="POST") res.emd("SignUP Success") ;
+                   break; 
+
+                default : res.end("404 PAGE NOT FOUND") ; 
+            }
+        }
+    }) ; 
+}
+
+
+const myServer = http.createServer(myHandler) ;
+myServer.listen(8004  , ()=> { console.log("Server Started")}) ;
+
+Thus problems : 
+1. We write switch cases for each route/path and also 5 if/else if for each of the five HTTP Methods
+2. Need to explicitly install new node modules like url,headers etc.. for each particular requirements
+
+Thus, we install EXPRESS which does all this work for us 
+
+
+----------### INSTALLING EXPRESS #####---------------
+npm i express
