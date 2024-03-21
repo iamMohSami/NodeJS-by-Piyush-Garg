@@ -1,0 +1,33 @@
+we saw that , our version of EXPRESS is : 
+ "dependencies": {
+    "express": "^4.19.1",
+ }
+
+ here, what does ^ mean , 4 mean , 19 mean , and 1 mean ? 
+
+ 1st part -> 4 
+ 2nd part -> 19
+ 3rd part -> 1 
+
+ HERE,
+
+ 3rd part (last part) -> MINOR FIXES | Optional Update | Chota Mota bug fixes 
+
+ 2nd part -> RECOMMENDED SECURITY/BUG FIX or UPDATES/ADDING NEW FEATURES | critical bug fix or Big New Updates 
+
+ 1st part -> MAJOR RELEASE / BREAKING UPDATE
+ you should never update major release on your existing code applications as it contains major changes which maybe break ur applications
+ Only if you are starting with a new project from start then only you should update it
+
+ NOTE => 
+ while installing express : npm i express  {will always install latest update}
+
+ to install specific version : npm i express@4.11.2 
+
+ ^ carat symbol : will always update evry new version BUT NEVER MAJOR RELEASE
+ if we do : npm uninstall express
+ it will automatically update to newset version but will alsways lock the first digit (major release number)
+
+if we have : 
+
+~4.18.2 squiggly symbol : will always update only last digit , 1st and 2nd number updates are locked until user does update it manunally
