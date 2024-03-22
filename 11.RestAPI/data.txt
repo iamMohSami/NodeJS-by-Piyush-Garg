@@ -1,0 +1,13 @@
+What is a REST API or RESTful API?
+
+A REST API, or Representational State Transfer Application Programming Interface, is a type of API that follows a set of standards, rules, or best practices.
+
+Consider a scenario where we have a server and a client (such as a web browser or a voice assistant like Alexa). The REST API provides standards or best practices for communication between the server and the client.
+
+Between the server and the client, the server sends responses to the client's requests. These responses can be in various formats, including HTML, JSON, XML, or others.
+
+If the client is a web browser, it's typically best to send HTML format responses. In this scenario, when the browser (client) requests data from the server, the server queries the database, converts it to HTML, and sends the specific data to the client/browser. This process is known as "Server-Side Rendering (SSR)" and is widely used in browsers, YouTube, and many other platforms.
+
+However, if the client is a device like Alexa or a mobile app, the response should be in the form of XML (in older contexts) or JSON (key-value pairs or raw data). This makes it easier for the client to understand the data. In this case, the client becomes independent of the server and can render the data according to its needs.
+
+In Express.js, it's straightforward to send JSON as a response using res.json() and to send rendered HTML as a response using res.send() or res.render().
