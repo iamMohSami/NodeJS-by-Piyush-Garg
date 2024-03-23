@@ -1,0 +1,20 @@
+Build a REST API - JSON data format 
+
+ROUTES TO IMPLEMENT => 
+
+GET /users  - List all users in HTML format for browser version
+
+GET /api/users - List all users data in JSON format for other clinets type(this makes our server HYBRID/COMPATIBLE FOR ALL CLIENTS VERSIONS)
+
+GET /api/users/1 - User with id=1
+GET /api/users/2 - User with id=2
+
+POST /api/users -  Create new user 
+
+PATCH /api/users/1 - Edit user id=1 data
+
+DELETE /api/users/1 - Delete user id=1 
+
+FROM WHERE TO GET RAW DATA => via mockaroo.com
+
+IN THIS LECTURE, WE WILL IMPLEMENT POST,PATCH AND DELETE USING POSTMAN

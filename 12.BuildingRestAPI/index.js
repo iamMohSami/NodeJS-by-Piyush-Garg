@@ -33,17 +33,17 @@ app.get("/api/users/:id" , (req,res) => {
 // BASICALLY, BROWSERS DO ONLY GET REQUEST , SO THE FURTHER ROUTES WILL BE DONE LATER IN THE COURSE , FOR NOW WE WILL JUST PASSA JSON WITH STATUS PENDING
 
 app.post("/api/users" , (req,res) => {
-    //TODO in upcoming lectures
+    //TODO in next lecture
     return res.json({"status" : "pending"}) ; 
 })
 
 app.patch("/api/users/:id" , (req,res) => {
-    //TODO in upcoming lectures
+    //TODO in next lecture
     return res.json({"status" : "pending"}) ; 
 })
 
 app.delete("/api/users/:id" , (req,res) => {
-    //TODO in upcoming lectures
+    //TODO in next lecture
     return res.json({"status" : "pending"}) ; 
 })
 
