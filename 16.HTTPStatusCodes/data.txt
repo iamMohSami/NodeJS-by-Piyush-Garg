@@ -1,0 +1,88 @@
+Status Codes => 
+
+Informational responses (100 – 199)
+Successful responses (200 – 299)
+Redirection messages (300 – 399)
+Client error responses (400 – 499)
+Server error responses (500 – 599)
+
+
+200 OK
+The request succeeded. The result meaning of "success" depends on the HTTP method.
+On doing GET response on server, it succesfully prints all the users data in JSON Form ,gives status code = 200 OK
+
+201 Created
+The request succeeded, and a new resource was created as a result. This is typically the response sent after POST requests, or some PUT requests.
+But, in our server, when we succesfully add new user using a POST methos, which is successfull, so it gives 200OK status code, But as we have created a new resourcse, it is more accurate to give status code of 201 Created instead of 200 OK , HOW TO ? 
+
+app.post("/api/users", (req, res) => {
+    const body = req.body;
+    console.log(body);
+    users.push({ ...body, id: users.length + 1 });
+    fs.writeFile("./Users.json", JSON.stringify(users), (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: "Failed to write to file" });
+        }
+        return res.status(201).json({ status: "Success" , id: users.length});
+    });
+});
+
+NOW, WE GET 201 CREATED Status Code on our POSTMAN app on successfully creating a new user using get method
+
+300 Redirection Message : WILL SEE IN FURTHER COURSE
+
+
+Client error responses
+400 Bad Request
+
+The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).
+
+TASK -> wkt, in order to add a new user in the json file, we make a POST request and all the new user data in the x-www-urlencoded section as a form data 
+we add  => 
+first_name
+last_name
+email
+gender
+job_title
+Suppose a situation, wher the user doesnt send any one of these 5 data fields, THEN YOU NEED TO GIVE STATUS CODE 400 AND return that Data is Missing..!!  HOW TO? 
+
+app.post("/api/users", (req, res) => {
+    const body = req.body;
+    console.log(body);
+    if(!body || !body.first_name || !body.last_name || !body.email || !body.gender || !body.job_title) {
+        res.status(400).json({"Error Message" : "Please Fill all the Details Completely.."}) ;
+    }
+    users.push({ ...body, id: users.length + 1 });
+    fs.writeFile("./Users.json", JSON.stringify(users), (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: "Failed to write to file" });
+        }
+        return res.status(201).json({ status: "Success" , id: users.length});
+    });
+});
+
+
+404 Not Found
+The server cannot find the requested resource. In the browser, this means the URL is not recognized. In an API, this can also mean that the endpoint is valid but the resource itself does not exist
+
+ALSO, when we do a GET requesty on API : http://localhost:8001/api/users/12
+            we get in response => details of user with id 12 
+
+BUT , when we do GET request on API : http://localhost:8001/api/users/121515
+        we dont get anything in reponse but note that the status code still comes as 200 OK
+TECHNICALLY, it is also a 404 Not Found
+So lets change this also , HOW TO??
+
+app.route("/api/users/:id").get((req,res) => {
+    res.setHeader("X-MyName" , "Mohammad Sami") ; 
+    const id = Number(req.params.id) ; 
+    const user = users.find((user) => user.id === id) ; 
+    if(!user) res.status(404).json({"Error Message" : "User Not Found :/"}) ;
+    return res.json(user) ; });
+
+Server error responses
+500 Internal Server Error
+The server has encountered a situation it does not know how to handle.
+
+ANY MISTAKES IN WRITTEN CODE/LOGIC... leads to 500 Server side error
+
