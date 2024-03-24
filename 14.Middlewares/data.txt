@@ -1,0 +1,58 @@
+Wkt, we have a client server architecture, the client makes a request which is processed and returned by the server : Client ----req----- Server ----response -----Client
+
+But, in case of middleware, these act as middlemen bw client and server.
+Each request by client is first recieved by middleware and then it performs some security checks/functions/operations on the request and if everything is right, then it sends it to the server which process it and sends response back to client.
+
+Client ----req-----Middleware----req----Server----response -----Client
+
+If the middleware finds some ambiguity/threats in the request it returns it back to client and prevents it reaching to server which helps in security of our system. 
+
+Middleware functions are functions that have access to the request object (req), the response object (res), and the next middleware function in the application’s request-response cycle. The next middleware function is commonly denoted by a variable named next.
+
+
+Middleware functions can perform the following tasks:
+1. Execute any code.
+2. Make changes to the request and the response objects.
+3. End the request-response cycle.
+4. Call the next middleware function in the stack.{one code can have multiple middlewares..}
+
+We can have Built-IN MIDDLEWARES WITH SOME DEDICATED SPECIFIC TASKS(ex :app.use(express.urlencoded({ extended: false }));  )
+
+OR CAN ALSO CREATE CUSTOM MIDDLEWARES WITH VARIOUS functionalities also. 
+Ex : 
+ app.use((res,req,next) => {
+    console.log("Hello from Middleware-1") ; 
+    next() ; //if you dont call the next middleware, the code will get sttuck at this level infinetely
+}) ;
+
+app.use((res,req,next) => {
+    console.log("Hello from Middleware-2") ; 
+    next() ; //if you dont call the next middleware, the code will get sttuck at this level infinetely
+}) ;
+
+WKT, we can make changes to the req and responseusing middlewares ; HOW TO? 
+Ex : 
+    app.use((res,req,next) => {
+    console.log("Hello from Middleware-1") ; 
+    req.username = "lucifer2004" ; 
+    next() ; 
+}) ;
+
+app.use((res,req,next) => {
+    console.log(`Hey there ${req.username}..!! This is Middleware 2 `) ; 
+    next() ;
+}) ;
+
+OUTPUT IN TERMINAL => 
+Server is Started..
+Hello from Middleware-1
+Hey there lucifer2004..!! This is Middleware 2
+
+Thus, the change in request made by one middleware persists overall in the  other middlewares and also the main route code also.
+
+
+LETS EXPLORE MORE ABOUT THE BUILT IN MIDDLEWARE : 
+app.use(express.urlencoded({ extended: false })); 
+
+wHAT THUS THIS DO? 
+it gets the data from the frontend form and then converts it to OBJECT form and then adds it in the request i.e. adds in the req.body 
