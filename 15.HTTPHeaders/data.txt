@@ -1,0 +1,35 @@
+Consider a scenario : 
+Person A and B : A wants to send a mail/letter to B
+The envelope contains a letter inside it : on envelope , it is written , Addiitonal Data
+
+From :A 
+To : B 
+weight : 200gms
+
+
+NOW, ANALOGY TO SERVER-CLIENT INTERACTION : 
+A = client : B = server : Envelope = Request : Inside letter = Actual Data
+and Additional Data on envelope = HTTP HEADER 
+
+From : 192.165.12.1 (senders IP)
+To : 10.21.124.13 (recievers IP)
+Content Type : JSON 
+
+i.e. HTTP HEADERS => METADATA of the request made
+
+Headers are used in both Request and Responses
+
+IN POSTMAN APP ; we can view both request and response headers 
+
+IN RESPONSE HEADERS : 
+we have one header => X-Powered-By = Express
+This is a Custom Header used by Express to show that this server is running on Express(self-promotion) 
+
+Can we also create a CUSTOM HEADER??  HELL YEAH.!!
+industry practice for adding custom header - "USE X-....." 
+For example -> X-MyName : MOhammad Sami
+
+app.get("/api/users" , (req,res) => {
+    res.setHeader("X-MyName" , "Mohammad Sami") ; 
+    return res.json(users) ; 
+});
