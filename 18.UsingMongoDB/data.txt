@@ -1,0 +1,144 @@
+To use mongodb with nodejs express server : 
+need to install mongoose 
+npm i mongoose
+
+HOW DOES MONGOOSE WORKS ? // ARCHITECTURE OF MONGOOSE =>> 
+
+first of all, we have an schema, then a model init , using model we do CRUD operations
+
+SCHEMA - Define The structure/Blueprint 
+     MODEL 
+     Using model we do CRUD(crete,read,update,delete) operations
+
+
+
+[[1.]] Need to Connect MONGOOSE || MAKE A CONNECTION || Basically it returns a PROMISE || can use .then()
+syntax => mongoose.connect("URL_OF_DATABASE/nameOfDatabase").then(/*on success*/).catch(/*if any error*/) ; 
+
+Note : the URL_OF_DATABASE => mongodb://127.0.0.1:27017/ is obtained from MONGO SHELL TERMINAL IN COMMAND PROMPT
+
+mongoose.connect("mongodb://127.0.0.1:27017/NodeJSTutorial").then(() => console.log("MongoDB is connected")).catch((err) => {console.log("Error in Connecting MONGODB : " , err)}) ; 
+
+
+[[2.]] create a new SCHEMA using : THIS WILL SERVE AS A BLUEPRINT FOR OUR FURTHER DATA INSERTIONS IN THE DB
+const userSchema = new mongoose.Schema({
+    firstName : {
+        type : String ,   //String with a capital "S" 
+        required : true , 
+    } , 
+    lastName : {
+        type : String ,
+    } , 
+    email : {
+        type : String , 
+        required : true , 
+        unique : true ,
+    }, 
+    jobTitle : {
+        type : String ,
+    } , 
+    gender : {
+        type : String , 
+    },
+}, {timestamps : true}); 
+//timestamps : true => this will automatically add CreatedAt and UpdatedAt using this timestamps:true
+// Here,No need of ID also, MongoDB by default maintains the ID of each new user input
+
+[[3.]] create a new MODEL 
+syntax => const User = mongoose.model("modelname" , SchemaName) ; 
+THUS :: 
+const User = mongoose.model("user" , userSchema) ; 
+
+THIS 3 STEPS WILL HELP US CONNECT MONGODB WITH OUR NODEJS SERVER 
+
+lets try run our server :
+[nodemon] starting `node index.js`
+Server is Started..
+MongoDB is connected
+
+and on MONGO SHELL : 
+test> show dbs
+BookStore       80.00 KiB
+NodeJSTutorial  12.00 KiB
+admin           40.00 KiB
+config          72.00 KiB
+local           80.00 KiB
+test> use NodeJSTutorial
+switched to db NodeJSTutorial
+NodeJSTutorial> show collections
+MongoshInvalidInputError: [COMMON-10001] 'collections' is not a valid argument for "show".
+NodeJSTutorial> show collections
+users
+NodeJSTutorial> db.users.find({})
+                        //HERE, IT IS EMPTY FOR NOW
+NodeJSTutorial>
+
+
+// NOW , LETS TRY TO ADD ONE USER TO OUR DATABASE
+how to? 
+// POST => 
+
+app.post("/api/users", async (req, res) => {
+    const body = req.body;
+    console.log(body);
+    if(!body || !body.first_name || !body.last_name || !body.email || !body.gender || !body.job_title) {
+        res.status(400).json({"Error Message" : "Please Fill all the Details Completely.."}) ;
+    }
+    const Result = await User.create({
+        firstName : body.first_name ,
+        lastName : body.last_name , 
+        email : body.email ,
+        gender : body.gender , 
+        jobTitle : body.job_title ,
+    }) ;
+    console.log(`New User Added : \n ${Result}`) ; 
+    return res.status(201).json({Msg : "Successfully Added New User"});
+});
+
+// // GET in html format
+app.get("/users" , async (req,res) => {
+    const allDBUsers = await User.find({}) ; //this fetches all the users list
+    const html = `
+    <ul>
+    ${allDBUsers.map(user => `<li>${user.firstName} - ${user.email}</li>`).join("")} 
+    </ul>
+    `
+    res.send(html) ; 
+})
+
+// // GET ALL in API JSON format
+app.get("/api/users" , async (req,res) => {
+    res.setHeader("X-MyName" , "Mohammad Sami") ;
+    const allDBUsers = await User.find({}) ; //this fetches all the users list
+    return res.json(allDBUsers) ; 
+});
+
+
+// // GET WITH SPECIFIC ID in JSON format
+app.route("/api/users/:id").get(async (req,res) => {
+    res.setHeader("X-MyName" , "Mohammad Sami") ; 
+    const user = await User.findById(req.params.id) ; 
+    if(!user) res.status(404).json({"Error Message" : "User Not Found :/"}) ;
+    return res.json(user) ; });
+
+// // PATCH and DELETE
+app.route("/api/users/:id").patch(async (req, res) => {
+        const body = req.body;
+        const userIndex = await User.findByIdAndUpdate(req.params.id , body) ; 
+        if (userIndex === -1) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        return res.json({status : "Successfully Edited"}) ; 
+    })
+    .delete(async (req, res) => {
+        const userIndex = await User.findByIdAndDelete(req.params.id) ; 
+        if (userIndex === -1) {
+            return res.status(404).json({ error: "User not found" });
+        }
+            return res.json({ status: "Success", message: "User deleted" });
+    });
+
+
+    
+
+
