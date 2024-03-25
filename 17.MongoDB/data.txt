@@ -1,0 +1,106 @@
+What is MongoDB??
+It is an NO-SQL , Document based Database {SQL -> Tables || NoSQL -> Document}
+Works on BSON format
+Strong support for Aggregation Pipes (will study about it ahead) 
+Best Compatibility with NodeJS
+
+
+ARCHITECTURE OF MONGODB => 
+Here, we have 
+COLLECTIONS => broader container which contains all the documents
+DOCUMENTS => Actual data in form of key-value pairs
+
+TO INSTALL AND SETUP => 
+install from browser
+Then, In command prompt = C:\Users\Asus>mongosh
+It opens MongoDB shell where we can works with our documents
+
+BASICS COMMANDS : 
+
+1. showdbs : shows the list of existing databases
+output => 
+BookStore  80.00 KiB
+admin      40.00 KiB
+config     60.00 KiB
+local      80.00 KiB
+
+2. use BookStore : to switch to BookStore databases
+
+3. BookStore> show collections : shows all available collections created in that database
+output => 
+BOOK
+Books
+
+4. BookStore> db.Books.find({})  : gives all the created documents in the Books collection 
+output => 
+[
+  {   //THIS IS AN DOCUMENT
+    _id: ObjectId("654e3862d7d5283ce784e2db"),
+    Title: 'Learn Physics with HCV',
+    Author: 'H C Verma',
+    Pages: 650,
+    Genre: [ 'Physics', 'JEE', 'NEET' ],
+    Rating: 9.5
+  },
+  {
+    _id: ObjectId("654e3a26d7d5283ce784e2df"),
+    Title: 'Physical Chemistry',
+    Author: 'N A Awasthi',
+    Pages: 400,
+    Genre: [ 'Chemistry', 'Physical' ],
+    Rating: 8
+  },
+  {
+    _id: ObjectId("654e3a26d7d5283ce784e2e0"),
+    Title: 'Inorganic Chemistry',
+    Author: 'O P Tandon',
+    Pages: 800,
+    Genre: [ 'Chemsitry', 'Inorganic' ],
+    Rating: 9
+  },
+  {
+    _id: ObjectId("654e3a26d7d5283ce784e2e1"),
+    Title: 'Organic Chemistry',
+    Author: 'Himanshu Pandey',
+    Pages: 250,
+    Genre: [ 'Chemistry', 'Organic' ],
+    Rating: 9.5
+  },
+  {
+    _id: ObjectId("654e3a26d7d5283ce784e2e2"),
+    Title: 'Cengage Maths',
+    Author: 'D Satish Babu Sir',
+    Pages: 750,
+    Genre: [ 'Maths', 'JEE' ],
+    Rating: 9.5
+  },
+  {
+    _id: ObjectId("654e422e76dfface7b1b8746"),
+    Title: 'Pearson JEE Maths',
+    Author: 'D Satish Babu Sir',
+    Pages: 263,
+    Genre: [ 'Maths', 'JEE' ],
+    Rating: 6.3
+  },
+  {
+    _id: ObjectId("654e5afad7d5283ce784e2e6"),
+    Title: 'Advanced Physics',
+    Author: 'I E Irodov',
+    Pages: 632,
+    Genre: [ 'Physics', 'JEE Advance' ],
+    Rating: 10,
+    Reviews: [
+      { Name: 'Shah Rukh Khan', Body: 'Great Book' },
+      { Name: 'Leo Messi', Body: 'Camera Vovo' }
+    ]
+  },
+  {
+    _id: ObjectId("654e5b62d7d5283ce784e2e7"),
+    Title: 'My JEE Journey',
+    Author: 'Sami',
+    Pages: 500,
+    Genre: [ 'Motivation', 'Autobiography', 'Real-Life', 'Inspirational' ],
+    Rating: 9.53,
+  }
+]
+
