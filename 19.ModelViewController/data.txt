@@ -1,0 +1,97 @@
+In Node.js, as in many other web development frameworks, Model-View-Controller (MVC) is a software architectural pattern that separates an application into three main components: Model, View, and Controller. Here's a brief overview of each component:
+
+1. **Model**: The Model represents the data and business logic of the application. It interacts with the database, performs data manipulation, and enforces business rules. In a Node.js application, the model often consists of JavaScript objects or classes that encapsulate data and provide methods for accessing and modifying it. Models are responsible for storing and retrieving data from the database.
+
+2. **View**: The View is responsible for presenting the data to the user in a readable format. It generates the user interface based on the data received from the controller or directly from the model. In a Node.js application, views are typically HTML templates or template engines (such as EJS, Pug, or Handlebars) that render dynamic content based on the data provided. Views focus on the presentation layer and should not contain any business logic.
+
+3. **Controller**: The Controller acts as an intermediary between the Model and the View. It receives user input from the View, processes it, interacts with the Model to retrieve or update data, and then passes the processed data to the View for presentation. Controllers contain the application's business logic, handling requests, and coordinating the flow of data between the Model and the View. In a Node.js application, controllers are JavaScript functions or classes that define route handlers and handle HTTP requests from clients.
+
+By following the MVC pattern, Node.js developers can create well-structured, maintainable, and scalable applications. MVC promotes separation of concerns, making it easier to understand, test, and modify different parts of the application independently. It also facilitates code reuse and collaboration among team members by providing clear boundaries between the different components.
+
+
+HERE, WE HAVE 3 COMPONENETS => 
+1.Model
+2.View
+3.Controller
+
+Hierarchy => Controller "CONTROLS" the Model ; and then the Model "UPDATES" the View..
+
+In our previous Folder code ; Our INDEX.JS file contains a large vairty of code and has become polluted, ths causing maintainability and Scalability problems
+Thus, we need to segreagate/refavtor our code using the MVC ARCHITECTURE
+
+HOW TO?
+start by creating 4 new folders : Models | Controllers | Routes | Views
++ We will have an INDEX.JS file (main file) which will just have overall structure of our project
+
+Lets START WITH "MODELS" folders 
+It will contain : * Schema and * Models => in an user.js file init 
+
+-----------------------------------------------------------------------------------------------------
+
+Now, lets go to "ROUTES" folders, here it contains all the routes of our express server 
+IMP => here, we use "Router" instead of "App" 
+Thus, 
+const Router = express.Router() ; 
+We also remove "users" from every route address, will explicilitly mention it in the main "index.js" file. 
+
+Thus in main INDEX.JS we need to do things : 
+1. const UserRouter = require("./routes/user") ; 
+2. app.use("/users" , UserRouter) ; 
+
+Now, we need to store the content of each route in other folder of "Controllers"
+
+
+-----------------------------------------------------------------------------------------------------
+
+Now, Lets make a new file for making the "CONNECTION" with Mongoose
+Create a new file : connection.js
+
+IN CONNECTION.JS => 
+const mongoose = require('mongoose') ; 
+async function connectMongoDB(url) {
+    return mongoose.connect(url) ; 
+}
+module.exports = {
+    connectMongoDB , 
+}
+
+In MAIN INDEX.JS => 
+const {connectMongoDB} = require('./connection') ; 
+// connection
+connectMongoDB("mongodb://127.0.0.1:27017/NodeJSTutorial") ;
+
+-------------------------------------------------------------------------------------------------------
+now, Lets refactor the Middleware parts => 
+
+Create a new folder named as  "Middlewares"  and a index.js file init
+
+
+IN MIDDLEWARES INDEX.JS =>
+const fs = require("fs");
+
+function logDetails(filename) {
+  return (req, res, next) => {
+    console.log(`Good to see you ${req.firstname} ${req.lastname} sir`);
+    fs.appendFile(
+      filename ,
+      `\n Request made on : ${new Date()} || Method : ${req.method} || IP : ${
+        req.ip
+      } || PATH : ${req.path}`,
+      (err, data) => {
+        if (err) console.log("Error Occured");
+        next();
+      }
+    );
+  };
+}
+module.exports = {
+    logDetails ,
+};
+
+IN MAIN INDEX.JS FILE => 
+//middlewares
+const {logDetails} = require("./middlewares/index") ; 
+app.use(express.urlencoded({ extended: false })); 
+app.use(logDetails("log.txt")) ; 
+
+-------------------------------------------------------------------------------------------------------
